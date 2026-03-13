@@ -56,4 +56,8 @@ cdk.out/
 *.pt
 *.pth
 *.onnx
+*.npy*.safetensors
+my_fine_tuned_model/
 *.npy
+distilbert-nfl-sentiment/
+*.bin
