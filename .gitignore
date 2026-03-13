@@ -61,3 +61,6 @@ my_fine_tuned_model/
 *.npy
 distilbert-nfl-sentiment/
 *.bin
+distilbert-nfl-sentiment/
+my_fine_tuned_model/
+*.bin
