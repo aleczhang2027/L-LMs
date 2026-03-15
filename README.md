@@ -106,6 +106,25 @@ classifier("Mahomes just threw an interception")
 # [{'label': 'negative', 'score': 0.567}]
 ```
 
+## Model Weights
+
+The fine-tuned model weights are too large to store in this repo (~260MB). 
+
+Download from Google Drive and place the contents in `./my_fine_tuned_model/`:
+
+👉 [Download model weights](https://drive.google.com/drive/folders/1fgeZaEo6pd9fQXJq_JlIBCGYanT4hW2_?usp=sharing)
+
+Then run inference locally:
+```python
+from transformers import pipeline
+
+classifier = pipeline(
+    "text-classification",
+    model="./my_fine_tuned_model",
+    tokenizer="./my_fine_tuned_model"
+)
+```
+
 ---
 
 ## Notes
