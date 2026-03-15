@@ -1,36 +1,123 @@
 # 🏈 NFL Tweet Sentiment Classifier
 
-A fine-tuned DistilBERT model for classifying NFL-related tweets as **negative**, **neutral**, or **positive**. Built as a demonstration of transfer learning and parameter-efficient fine-tuning on a sports-domain NLP dataset.
+A fine-tuned DistilBERT model for classifying NFL-related tweets as **negative**, **neutral**, or **positive**. This project demonstrates transfer learning and parameter-efficient fine-tuning on a sports-domain NLP dataset, adapted from a general-purpose language model to a domain-specific sentiment classifier.
 
 ---
 
-## Overview
+## Motivation
 
-The base `distilbert-base-uncased` model has no sentiment knowledge out of the box — it outputs ~51% confidence on classification tasks before any fine-tuning. This project adapts it to NFL tweet sentiment using a labeled dataset of ~5,000 tweets, achieving **73.4% validation accuracy** after 3 epochs of training.
-
----
-
-## Dataset
-
-- **Source:** `nfl_sentiments.csv`
-- **Size:** 5,153 tweets
-- **Classes:** negative (1,757) · neutral (2,235) · positive (1,161)
-- **Splits (stratified):**
-  - Train: 3,091 (60%)
-  - Validation: 1,031 (20%)
-  - Test: 1,031 (20%)
+General-purpose sentiment models struggle with sports tweets — phrases like "Mahomes just threw an interception" are factual but negative in fan context, and the base DistilBERT model outputs ~51% confidence (essentially random) on these inputs. This project fine-tunes DistilBERT on labeled NFL tweets to produce a domain-aware classifier that reaches **73.4% validation accuracy**.
 
 ---
 
-## Model & Training
+## Repository Structure
+```
+L-LMs/
+├── student/
+│   └── Final_Project/
+│       ├── Sports_sentiment.ipynb       # Main training + evaluation notebook
+│       ├── nfl_sentiments.csv           # Labeled tweet dataset
+│       ├── distilbert-nfl-sentiment/    # Training checkpoints (not tracked, see below)
+│       └── my_fine_tuned_model/         # Saved model weights (not tracked, see below)
+├── results/
+│   ├── final_result1.png                # Loss & accuracy curves
+│   ├── final_result2.png                # Base vs. fine-tuned confidence comparison
+│   └── final_result3.png                # Saliency maps + t-SNE + cosine similarity
+├── data/
+│   └── nfl_sentiments.csv               # Original dataset
+├── model_params/
+│   └── sports_sentiment/                # Model config params
+├── Final_Project_LLM_Handout.pdf
+├── pyproject.toml                       # Pinned dependencies
+└── .gitignore
+```
 
-- **Base model:** `distilbert-base-uncased`
-- **Task:** 3-class sequence classification
-- **Parameter-efficient training:** embeddings + first 4 transformer layers frozen → only 22% of parameters trainable (14.7M / 66.9M)
-- **Optimizer:** AdamW, lr = 2e-5, cosine schedule, 100 warmup steps
-- **Batch size:** 8 (train) · 16 (eval), with gradient accumulation steps = 2
-- **Epochs:** 3 (with early stopping, patience = 2)
-- **Hardware:** Apple Silicon MPS (M-series GPU)
+---
+
+## Environment Setup
+
+This project uses `pyproject.toml` for dependency management. To recreate the environment:
+```bash
+# Clone the repo
+git clone https://github.com/aleczhang2027/L-LMs.git
+cd L-LMs
+
+# Install dependencies (pip)
+pip install transformers[torch] datasets evaluate accelerate peft scikit-learn matplotlib pandas numpy
+
+# Or install from pyproject.toml directly
+pip install .
+```
+
+Dependencies and pinned versions are specified in `pyproject.toml` at the repo root.
+
+> **Hardware note:** Training was run on Apple Silicon (MPS). The notebook auto-detects MPS/CUDA/CPU — no changes needed to run on other hardware.
+
+---
+
+## Model Weights
+
+The fine-tuned model weights (`model.safetensors`, ~260MB) are too large for GitHub. Download from Google Drive and place the contents into `student/Final_Project/my_fine_tuned_model/`:
+
+👉 [Download model weights](https://drive.google.com/drive/folders/1fgeZaEo6pd9fQXJq_JlIBCGYanT4hW2_?usp=sharing)
+
+Training checkpoints (optimizer state, ~118MB each) are also available on Google Drive if you need to resume training from step 388 or 582:
+
+👉 [Download checkpoints](https://drive.google.com/drive/folders/1mZiLMuiEbS7QdzuBDtwpDboGg3Ec5ogu?usp=sharing)
+
+---
+
+## Quickstart — Inference Only
+
+If you just want to run predictions using the fine-tuned model:
+```bash
+# 1. Download model weights from the Drive link above
+# 2. Place contents in student/Final_Project/my_fine_tuned_model/
+# 3. Run:
+
+from transformers import pipeline
+
+classifier = pipeline(
+    "text-classification",
+    model="./student/Final_Project/my_fine_tuned_model",
+    tokenizer="./student/Final_Project/my_fine_tuned_model"
+)
+
+classifier("Mahomes just threw an interception")
+# [{'label': 'negative', 'score': 0.567}]
+
+classifier("I hate this game so much")
+# [{'label': 'negative', 'score': 0.923}]
+```
+
+---
+
+## Reproducing the Full Training Run
+
+To retrain from scratch and regenerate all results:
+```bash
+# 1. Make sure nfl_sentiments.csv is in student/Final_Project/
+# 2. Open the notebook
+jupyter notebook student/Final_Project/Sports_sentiment.ipynb
+# 3. Run All Cells (Kernel > Restart & Run All)
+```
+
+This will reproduce:
+- All training metrics (loss, accuracy)
+- All figures saved to `results/`
+- The fine-tuned model saved to `student/Final_Project/my_fine_tuned_model/`
+- Training checkpoints saved to `student/Final_Project/distilbert-nfl-sentiment/`
+
+---
+
+## Output Management
+
+| Output | Location | Description |
+|---|---|---|
+| Training checkpoints | `student/Final_Project/distilbert-nfl-sentiment/checkpoint-388/` and `checkpoint-582/` | Optimizer + scheduler state at each epoch. Not tracked by git. |
+| Final model weights | `student/Final_Project/my_fine_tuned_model/` | Saved via `trainer.save_model()`. Not tracked by git. |
+| Training logs | `student/Final_Project/distilbert-nfl-sentiment/trainer_state.json` | Full loss/accuracy history per step. |
+| Result figures | `results/final_result1.png`, `final_result2.png`, `final_result3.png` | Generated inline in notebook, saved to `results/`. |
 
 ---
 
@@ -48,87 +135,26 @@ The base `distilbert-base-uncased` model has no sentiment knowledge out of the b
 |---|---|---|
 | "I hate this game so much" | negative | 92.3% |
 | "Mahomes just threw an interception" | negative | 56.7% |
-| Base model on any tweet | ~LABEL_0 | ~51–53% |
+| Base model (untrained) | ~LABEL_0 | ~51–53% |
 
 ---
 
 ## Visualizations
 
-- **Loss & accuracy curves** — training vs. validation performance per epoch
-- **Confidence comparison** — base model vs. fine-tuned side by side on sample tweets
-- **Saliency maps** — token-level heatmaps showing which words drove each prediction
-- **t-SNE plots** — 2D visualization of how tweet embeddings cluster by sentiment class
-- **Cosine similarity heatmap** — inter-tweet similarity across sentiment groups in the fine-tuned embedding space
+All figures are saved in `results/` and regenerated by running the notebook end-to-end:
+
+- `final_result1.png` — Training vs. validation loss and accuracy curves per epoch
+- `final_result2.png` — Side-by-side confidence comparison: base model vs. fine-tuned
+- `final_result3.png` — Saliency maps (token importance), t-SNE embedding clusters, cosine similarity heatmap
 
 ---
 
-## Project Structure
-```
-├── Sports_sentiment.ipynb   # Main notebook
-├── nfl_sentiments.csv       # Labeled tweet dataset
-└── my_fine_tuned_model/     # Saved model + tokenizer
-```
+## Model & Training Details
 
----
-
-## Requirements
-```
-transformers
-datasets
-evaluate
-accelerate
-peft
-torch
-scikit-learn
-matplotlib
-pandas
-numpy
-```
-
-Install with:
-```bash
-pip install transformers[torch] datasets evaluate accelerate peft
-```
-
----
-
-## Usage
-```python
-from transformers import pipeline
-
-classifier = pipeline(
-    "text-classification",
-    model="./my_fine_tuned_model",
-    tokenizer="./my_fine_tuned_model"
-)
-
-classifier("Mahomes just threw an interception")
-# [{'label': 'negative', 'score': 0.567}]
-```
-
-## Model Weights
-
-The fine-tuned model weights are too large to store in this repo (~260MB). 
-
-Download from Google Drive and place the contents in `./my_fine_tuned_model/`:
-
-👉 [Download model weights](https://drive.google.com/drive/folders/1fgeZaEo6pd9fQXJq_JlIBCGYanT4hW2_?usp=sharing)
-
-Then run inference locally:
-```python
-from transformers import pipeline
-
-classifier = pipeline(
-    "text-classification",
-    model="./my_fine_tuned_model",
-    tokenizer="./my_fine_tuned_model"
-)
-```
-
----
-
-## Notes
-
-- Confidence scores are softmax probabilities across all 3 classes. A score of 0.92 means the model assigned 92% of its probability mass to that class.
-- Lower confidence on factual/descriptive tweets (e.g. game recaps) is expected and appropriate — those tweets are genuinely ambiguous in sentiment.
-- The frozen-layer approach keeps training fast and reduces overfitting risk on a relatively small dataset.
+- **Base model:** `distilbert-base-uncased`
+- **Task:** 3-class sequence classification (negative / neutral / positive)
+- **Parameter-efficient training:** embeddings + first 4 transformer layers frozen → only 22% of parameters trainable (14.7M / 66.9M)
+- **Optimizer:** AdamW, lr = 2e-5, cosine LR schedule, 100 warmup steps
+- **Batch size:** 8 (train) · 16 (eval), gradient accumulation steps = 2
+- **Epochs:** 3 with early stopping (patience = 2)
+- **Hardware:** Apple Silicon MPS (M-series GPU)
