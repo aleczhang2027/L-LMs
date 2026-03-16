@@ -1,4 +1,4 @@
-# 🏈 NFL Tweet Sentiment Classifier
+# Tweet Sentiment Classifier
 
 A fine-tuned DistilBERT model for classifying NFL-related tweets as **negative**, **neutral**, or **positive**. This project demonstrates transfer learning and parameter-efficient fine-tuning on a sports-domain NLP dataset, adapted from a general-purpose language model to a domain-specific sentiment classifier.
 
