@@ -137,6 +137,8 @@ Run each notebook independently. They do not depend on one another, but all depe
 
 Each notebook is self-contained and includes all preprocessing, training, and evaluation steps. Just place the corresponding data file in `data/` and run the notebook cell by cell.
 
+> **Note:** The results for videogame_sentiment_final.ipynb are not directly visible in github, downloading the .ipynb should reveal the code and outputs.
+
 ---
 
 ## Model Architecture
