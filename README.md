@@ -43,19 +43,31 @@ Each team member owns one Jupyter notebook for their Stage 2 domain. Stage 1 (to
 
 ```
 L-LMs/
-├── stage1_topic_classifier.ipynb     # Shared — 5-class domain routing model
-├── stage2_finance.ipynb              # Nolan White — Finance sentiment
-├── stage2_politics.ipynb             # Kenneth Cao — Politics sentiment
-├── stage2_nfl.ipynb                  # Alec Zhang — NFL/Sports sentiment
-├── stage2_videogames.ipynb           # David Wu — Video Games sentiment
 ├── data/
-│   ├── Labelled_Tweets.csv           # Finance (Kaggle)
+│   ├── Financial_tweets.csv          # Finance (Kaggle)
+│   ├── combined_df.csv               # Combined multi-domain dataset for Stage 1
+│   ├── nfl_sentiments.csv            # NFL/Sports (Kaggle)
+│   ├── none_sentiment.csv            # Out-of-distribution "None" class
 │   ├── politics_sentiment.csv        # Politics
-│   ├── nfl_sentiments.csv            # NFL (Kaggle)
-│   ├── videogames_train.csv          # Video Games (Kaggle)
-│   └── sentiment140_sample.csv       # Out-of-distribution "None" class
-└── outputs/
-    └── 4_worst_predictions.csv       # Video games worst-case prediction analysis
+│   └── videogames_sentiment.csv      # Video Games (Kaggle)
+├── environment_setup/                # Poetry/environment configuration files
+├── notebooks/
+│   ├── Sports_sentiment.ipynb        # Alec Zhang — NFL/Sports sentiment (Stage 2)
+│   ├── finance_sentiment_final.ipynb # Nolan White — Finance sentiment (Stage 2)
+│   ├── politics_sentiment.ipynb      # Kenneth Cao — Politics sentiment (Stage 2)
+│   ├── testing_model.ipynb           # Shared — Stage 1 topic classifier & pipeline testing
+│   ├── tweet_types.ipynb             # Shared — domain routing / tweet type analysis
+│   └── videogames_sentiment_final.ipynb  # David Wu — Video Games sentiment (Stage 2)
+├── results/
+│   ├── finance_outputs/              # Finance model outputs & evaluation artifacts
+│   ├── nfl_outputs/                  # NFL model outputs & evaluation artifacts
+│   ├── politics_outputs/             # Politics model outputs & evaluation artifacts
+│   ├── testing_model_outputs/        # Stage 1 classifier outputs
+│   ├── tweet_types/                  # Domain routing analysis outputs
+│   └── videogames_outputs/           # Video games model outputs & evaluation artifacts
+├── .gitignore
+├── LICENSE
+└── README.md
 ```
 
 ---
@@ -102,15 +114,15 @@ Each stage corresponds to a single Jupyter notebook. Run them in order:
 
 ### Step 1 — Train the Topic Classifier (shared)
 
-Open and run **`stage1_topic_classifier.ipynb`** top to bottom.
+Open and run **`notebooks/testing_model.ipynb`** and **`notebooks/tweet_types.ipynb`** top to bottom.
 
-This trains a 5-class DistilBERT classifier on the 14,115-tweet "Frankenstein" corpus and produces:
+These train the 5-class DistilBERT classifier on the 14,115-tweet "Frankenstein" corpus and produce:
 - A trained topic routing model
 - t-SNE visualizations of domain embeddings
 - Cosine similarity heatmaps between domain centroids
 - Saliency maps for topic-specific keywords
 
-**Data needed:** All five CSVs in `data/` (see Repository Structure above).
+**Data needed:** All CSVs in `data/` (see Repository Structure above).
 
 ### Step 2 — Train Domain-Specific Sentiment Models
 
@@ -118,10 +130,10 @@ Run each notebook independently. They do not depend on one another, but all depe
 
 | Notebook | Owner | Data File |
 |---|---|---|
-| `stage2_finance.ipynb` | Nolan White | `Labelled_Tweets.csv` |
-| `stage2_politics.ipynb` | Kenneth Cao | `politics_sentiment.csv` |
-| `stage2_nfl.ipynb` | Alec Zhang | `nfl_sentiments.csv` |
-| `stage2_videogames.ipynb` | David Wu | `videogames_train.csv` |
+| `notebooks/finance_sentiment_final.ipynb` | Nolan White | `Financial_tweets.csv` |
+| `notebooks/politics_sentiment.ipynb` | Kenneth Cao | `politics_sentiment.csv` |
+| `notebooks/Sports_sentiment.ipynb` | Alec Zhang | `nfl_sentiments.csv` |
+| `notebooks/videogames_sentiment_final.ipynb` | David Wu | `videogames_sentiment.csv` |
 
 Each notebook is self-contained and includes all preprocessing, training, and evaluation steps. Just place the corresponding data file in `data/` and run the notebook cell by cell.
 
@@ -160,11 +172,11 @@ Balanced corpus of 14,115 tweets across five classes (2,823 per class), with an 
 
 | Domain | Source |
 |---|---|
-| Finance | Labelled_Tweets.csv (Kaggle) |
+| Finance | Financial_tweets.csv (Kaggle) |
 | Politics | politics_sentiment.csv |
 | Sports (NFL) | nfl_sentiments.csv (Kaggle) |
-| Video Games | videogames_train.csv (Kaggle) |
-| None (OOD) | Sentiment140 sample |
+| Video Games | videogames_sentiment.csv (Kaggle) |
+| None (OOD) | none_sentiment.csv |
 
 ### Stage 2 — Sentiment Classification
 
@@ -187,7 +199,7 @@ Balanced corpus of 14,115 tweets across five classes (2,823 per class), with an 
 
 **Kenneth Cao** — Stage 2, Politics: applied keyword-based filtering across 44 political terms to isolate 5,454 politically relevant tweets from a 3M-tweet corpus; performed stratified 60/20/20 train/val/test split; fine-tuned DistilBERT for 3-class political sentiment classification (76.06% validation accuracy); conducted before/after fine-tuning confidence comparison; performed saliency analysis on high-attribution tokens.
 
-**Nolan White** — Stage 2, Finance: fine-tuned DistilBERT for 3-class financial sentiment classification (69.1% test accuracy, 0.693 macro F1); per-class F1 analysis (Negative 0.77, Positive 0.69, Neutral 0.63); generated confusion matrix and training/validation diagnostic curves.
+**Nolan White** — Stage 2, Finance: fine-tuned DistilBERT for 3-class financial sentiment classification (69.1% test accuracy, 0.693 macro F1); per-class F1 analysis (Negative 0.77, Positive 0.69, Neutral 0.63); generated confusion matrix and training/validation diagnostic curves. *(Note: Nolan's environment and notebook were uploaded to the repository by Alec Zhang.)*
 
 ---
 
