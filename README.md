@@ -104,7 +104,7 @@ All dependencies are managed through Poetry. Core packages include:
 - `matplotlib` / `seaborn` — Visualizations
 - `pandas` / `numpy` — Data handling
 
-> **Note:** Models were trained on Google Colab (GPU). Running locally on CPU is possible but significantly slower, especially for Stage 2 video games (~38,000 training rows).
+> **Note:** All other scripts were run on MacBook M-series models, except for the video games model which was run on Google Colab. For systems without CUDA or Apple Silicon support, running the scripts on Google Colab could potentially be faster.
 
 ---
 
