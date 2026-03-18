@@ -20,9 +20,17 @@ L-LMs/
 │       ├── distilbert-nfl-sentiment/    # Training checkpoints (not tracked, see below)
 │       └── my_fine_tuned_model/         # Saved model weights (not tracked, see below)
 ├── results/
-│   ├── final_result1.png                # Loss & accuracy curves
-│   ├── final_result2.png                # Base vs. fine-tuned confidence comparison
-│   └── final_result3.png                # Saliency maps + t-SNE + cosine similarity
+|    └── Final_Project/
+│       ├── nfl_results.png                # Loss & accuracy curves
+│       ├── nfl_results2.png                # Base vs. fine-tuned confidence comparison
+│       ├── nfl_results3.png                # Base vs. fine-tuned confidence comparison
+│       ├── nfl_results4.png                # Base vs. fine-tuned confidence comparison
+│       ├── final_result2.png                # Base vs. fine-tuned confidence comparison
+│       ├── final_result2.png                # Base vs. fine-tuned confidence comparison
+│       ├── final_result2.png                # Base vs. fine-tuned confidence comparison
+│       ├── final_result2.png                # Base vs. fine-tuned confidence comparison
+│       ├── final_result2.png                # Base vs. fine-tuned confidence comparison
+│       └── final_result3.png                # Saliency maps + t-SNE + cosine similarity
 ├── data/
 │   └── nfl_sentiments.csv               # Original dataset
 ├── model_params/
