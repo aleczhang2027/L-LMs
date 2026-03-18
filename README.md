@@ -205,8 +205,14 @@ Balanced corpus of 14,115 tweets across five classes (2,823 per class), with an 
 
 ## References
 
-1. Sanh, V., Debut, L., Chaumond, J., & Wolf, T. (2019). DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter. *arXiv:1910.01108*.
-2. Wolf, T., et al. (2020). Transformers: State-of-the-Art Natural Language Processing. *EMNLP 2020*.
-3. Dmonte, A., et al. (2024). An Evaluation of Large Language Models in Financial Sentiment Analysis. *IEEE*.
-4. van der Maaten, L., & Hinton, G. (2008). Visualizing Data using t-SNE. *Journal of Machine Learning Research, 9*, 2579–2605.
-5. ProsusAI/finbert — Financial Sentiment Analysis. [Hugging Face Model Hub](https://huggingface.co/ProsusAI/finbert).
+[1] Sanh, V., Debut, L., Chaumond, J., & Wolf, T. (2019). DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter. arXiv:1910.01108.
+[2] ProsusAI/finbert — Financial Sentiment Analysis. Hugging Face Model Hub. https://huggingface.co/ProsusAI/finbert
+[3] Twitter Sentiment Dataset — 3 million labelled rows. Kaggle. https://www.kaggle.com/datasets/prkhrawsthi/twitter-sentiment-dataset-3-million-labelled-rows
+[4] Labelled Financial Tweets Dataset. Kaggle. https://www.kaggle.com/datasets/dawoodaijaz/stock-market-tweets-labelled-with-gcp-nlp
+[5] jp797498e. Twitter Entity Sentiment Analysis. Kaggle. https://www.kaggle.com/datasets/jp797498e/twitter-entity-sentiment-analysis
+[6] NFL Sentiments Dataset. Kaggle. https://www.kaggle.com/datasets/cammyc/nfl-twitter-sentiment-analysis
+[7] Politics Sentiment Dataset. Kaggle — annotated political tweet corpus.
+[8] Wolf, T., et al. (2020). Transformers: State-of-the-Art Natural Language Processing. EMNLP 2020. https://aclanthology.org/2020.emnlp-demos.6
+[9] Dmonte, A., et al. (2024). An Evaluation of Large Language Models in Financial Sentiment Analysis. IEEE.
+[10] van der Maaten, L., & Hinton, G. (2008). Visualizing Data using t-SNE. Journal of Machine Learning Research, 9, 2579–2605.
+
