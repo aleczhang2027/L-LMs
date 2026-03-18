@@ -191,7 +191,7 @@ Balanced corpus of 14,115 tweets across five classes (2,823 per class), with an 
 
 ## Individual Contributions
 
-**Everyone** — Stage 1 (Topic Classifier) & Stage 2 NFL support: assembled the multi-domain Frankenstein dataset; fine-tuned DistilBERT for 5-class topic classification; generated saliency maps, t-SNE visualizations, and cosine similarity heatmaps for Stage 1 domain separation.
+**Everyone** — Stage 1 (Topic Classifier) & Stage 2 NFL support: assembled the multi-domain Frankenstein dataset; fine-tuned DistilBERT for 5-class topic classification; generated saliency maps, t-SNE visualizations, and cosine similarity heatmaps for Stage 1 domain separation. Everyone contributed equally to the presentation slideshow and project proposal.
 
 **David Wu** — Stage 2, Video Games: filtered and preprocessed the raw tweet dataset to the video games domain; performed stratified train/test split and ensured test set isolation; fine-tuned DistilBERT for 3-class sentiment classification using HuggingFace Trainer API; designed and ran diagnostic evaluation pipeline (class distribution, confusion matrix, confidence analysis, worst-case prediction analysis); conducted baseline vs. fine-tuned comparison.
 
@@ -199,7 +199,7 @@ Balanced corpus of 14,115 tweets across five classes (2,823 per class), with an 
 
 **Kenneth Cao** — Stage 2, Politics: applied keyword-based filtering across 44 political terms to isolate 5,454 politically relevant tweets from a 3M-tweet corpus; performed stratified 60/20/20 train/val/test split; fine-tuned DistilBERT for 3-class political sentiment classification (76.06% validation accuracy); conducted before/after fine-tuning confidence comparison; performed saliency analysis on high-attribution tokens.
 
-**Nolan White** — Stage 2, Finance: fine-tuned DistilBERT for 3-class financial sentiment classification (69.1% test accuracy, 0.693 macro F1); per-class F1 analysis (Negative 0.77, Positive 0.69, Neutral 0.63); generated confusion matrix and training/validation diagnostic curves. *(Note: Nolan's environment and notebook were uploaded to the repository by Alec Zhang.)*
+**Nolan White** — Stage 2 Finance: fine-tuned DistilBERT for 3-class financial sentiment classification (69.1% test accuracy, 0.693 macro F1); per-class F1 analysis (Negative 0.77, Positive 0.69, Neutral 0.63); generated confusion matrix and training/validation diagnostic curves. Authored report abstract, finance specific evaluation metrics and results sections. Edited and reviewed other portions of the report. *(Note: Due to environment issues, Nolan's notebook was uploaded to the repository by Alec Zhang.)*
 
 ---
 
