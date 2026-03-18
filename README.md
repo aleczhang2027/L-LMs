@@ -104,7 +104,7 @@ All dependencies are managed through Poetry. Core packages include:
 - `matplotlib` / `seaborn` — Visualizations
 - `pandas` / `numpy` — Data handling
 
-> **Note:** All other scripts were run on MacBook M-series models, except for the video games model which was run on Google Colab. For systems without CUDA or Apple Silicon support, running the scripts on Google Colab could potentially be faster.
+> **Note:** All scripts were run on MacBook M-series models, except for the video games model which was run on Google Colab. For systems without CUDA or Apple Silicon support, running the scripts on Google Colab could potentially be faster.
 
 ---
 
