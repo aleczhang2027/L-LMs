@@ -27,7 +27,6 @@ L-LMs/
 │   └── nfl_sentiments.csv               # Original dataset
 ├── model_params/
 │   └── sports_sentiment/                # Model config params
-├── Final_Project_LLM_Handout.pdf
 ├── pyproject.toml                       # Pinned dependencies
 └── .gitignore
 ```
