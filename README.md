@@ -170,7 +170,7 @@ A **confidence-based fallback** is implemented in Stage 1: if the maximum softma
 
 ### Stage 1 — Topic Classification
 
-Balanced corpus of 14,115 tweets across five classes (2,823 per class), with an 80/20 train/validation split.
+Balanced corpus of 11,260 tweets across five classes (2,252 per class), with an 80/20 train/validation split.
 
 | Domain | Source |
 |---|---|
